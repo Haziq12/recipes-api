@@ -41,7 +41,18 @@ router.get('/details/:id', (req, res) => {
   })
 })
 
-
+router.post('/', (req, res) => {
+  let recipe = {
+    name: req.body.name,
+    ingredients: [req.body.ingredients],
+    instructions: [req.body.instructions]
+  }
+  const data = JSON.stringify(recipe)
+  fs.writeFile('./data.json', data, (err) => {
+    if (err) throw err
+    res.send('Data writte to file')
+  })
+})
 
 module.exports = router
 
