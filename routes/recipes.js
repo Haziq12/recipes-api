@@ -44,15 +44,31 @@ router.get('/details/:id', (req, res) => {
 router.post('/', (req, res) => {
   let recipe = {
     name: req.body.name,
-    ingredients: [req.body.ingredients],
-    instructions: [req.body.instructions]
+    ingredients: req.body.ingredients,
+    instructions: req.body.instructions
   }
-  const data = JSON.stringify(recipe)
-  fs.writeFile('./data.json', data, (err) => {
-    if (err) throw err
-    res.send('Data writte to file')
+  fs.readFile('./data.json', 'utf8', (err, data) => {
+    let allRecipes = JSON.parse(data)
+    allRecipes.recipes.push(recipe)
+    fs.writeFile('./data.json', JSON.stringify(allRecipes), (err) => {
+      if (err) throw err
+      res.send('New recipe added')
+    })
   })
 })
+
+// router.post('/', (req, res) => {
+//   let recipe = {
+//     name: req.body.name,
+//     ingredients: req.body.ingredients,
+//     instructions: req.body.instructions
+//   }
+//   const data = JSON.stringify(recipe)
+//   fs.appendFile('./data.json', data, (err) => {
+//     if (err) throw err
+//     res.send('Data written to file')
+//   })
+// })
 
 module.exports = router
 
