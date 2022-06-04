@@ -24,18 +24,24 @@ router.get('/details/:id', (req, res) => {
     allRecipes = allRecipes.recipes
     const params = req.params.id
     let details = {
-      ingredients: [],
-      numSteps: null
-    }
-    for(let i = 0; i < allRecipes.length; i++){
-      if(params == allRecipes[i].name){
-        details.ingredients.push(allRecipes[i].ingredients)
-        details.numSteps = allRecipes[i].instructions.length
+      details: {
+        ingredients: [],
+        numSteps: null
       }
     }
-    res.send(details)
+
+    
+    for(let i = 0; i < allRecipes.length; i++){
+      if(params == allRecipes[i].name){
+        details.details.ingredients.push(...allRecipes[i].ingredients)
+        details.details.numSteps = allRecipes[i].instructions.length
+        res.send(details)
+      } 
+    }
   })
 })
+
+
 
 module.exports = router
 
