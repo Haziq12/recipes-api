@@ -67,8 +67,6 @@ router.put('/', (req, res) => {
     for(let i = 0; i < allRecipes.recipes.length; i++){
       if(allRecipes.recipes[i].name == editRecipe.name){
         allRecipes.recipes[i] = editRecipe
-      } else {
-        res.status(404).send('Recipe does not exist')
       }
     }
     fs.writeFile('./data.json', JSON.stringify(allRecipes), (err) => {
