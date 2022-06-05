@@ -29,7 +29,6 @@ router.get('/details/:id', (req, res) => {
         numSteps: null
       }
     }
-
     
     for(let i = 0; i < allRecipes.length; i++){
       if(params == allRecipes[i].name){
@@ -42,33 +41,23 @@ router.get('/details/:id', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-  let recipe = {
+  let newRecipe = {
     name: req.body.name,
     ingredients: req.body.ingredients,
     instructions: req.body.instructions
   }
   fs.readFile('./data.json', 'utf8', (err, data) => {
     let allRecipes = JSON.parse(data)
-    allRecipes.recipes.push(recipe)
+    allRecipes.recipes.push(newRecipe)
     fs.writeFile('./data.json', JSON.stringify(allRecipes), (err) => {
       if (err) throw err
-      res.send('New recipe added')
+      res.status(201).send()
     })
   })
 })
 
-// router.post('/', (req, res) => {
-//   let recipe = {
-//     name: req.body.name,
-//     ingredients: req.body.ingredients,
-//     instructions: req.body.instructions
-//   }
-//   const data = JSON.stringify(recipe)
-//   fs.appendFile('./data.json', data, (err) => {
-//     if (err) throw err
-//     res.send('Data written to file')
-//   })
-// })
+router.put('/', (req, res) => {
+  
+})
 
 module.exports = router
-
