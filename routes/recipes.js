@@ -57,7 +57,25 @@ router.post('/', (req, res) => {
 })
 
 router.put('/', (req, res) => {
-  
+  let editRecipe = {
+    name: req.body.name,
+    ingredients: req.body.ingredients,
+    instructions: req.body.instructions
+  }
+  fs.readFile('./data.json', 'utf8', (err, data) => {
+    let allRecipes = JSON.parse(data)
+    for(let i = 0; i < allRecipes.recipes.length; i++){
+      if(allRecipes.recipes[i].name == editRecipe.name){
+        allRecipes.recipes[i] = editRecipe
+      } else {
+        res.status(404).send('Recipe does not exist')
+      }
+    }
+    fs.writeFile('./data.json', JSON.stringify(allRecipes), (err) => {
+      if (err) throw err
+      res.status(204).send()
+    })
+  })
 })
 
 module.exports = router
